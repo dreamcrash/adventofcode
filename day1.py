@@ -68,4 +68,5 @@ def day1_part2():
     return sum_calibrations
 
 
+print(day1_part1())
 print(day1_part2())
