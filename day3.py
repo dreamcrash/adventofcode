@@ -1,7 +1,7 @@
 import re
 from curses.ascii import isalnum
 
-from utils import profile_and_print_result
+from utils import profile_and_print_result, find_all_digits
 
 
 def create_matrix_with_padding(file_name: str):
@@ -40,7 +40,7 @@ def day3_part1():
     for row_pos in range(1, len(matrix) - 1):
         current_line = matrix[row_pos]
 
-        digits_in_line = re.findall(r"(\d+)", current_line)
+        digits_in_line = find_all_digits(current_line)
         pos_of_digits_in_line = [m.start() for m in re.finditer(r"(\d+)", current_line)]
 
         ss_relevant_pos = [
@@ -75,7 +75,7 @@ def day3_part2():
     gears = dict()
     for row_pos in range(1, len(matrix) - 1):
         current_line = matrix[row_pos]
-        digits_in_line = re.findall(r"(\d+)", current_line)
+        digits_in_line = find_all_digits(current_line)
         pos_of_digits_in_line = [m.start() for m in re.finditer(r"(\d+)", current_line)]
 
         for digit, digit_start_pos in zip(digits_in_line, pos_of_digits_in_line):

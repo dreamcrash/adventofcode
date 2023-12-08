@@ -1,4 +1,9 @@
+import re
 import time
+
+
+def find_all_digits(line:str) -> list:
+    return re.findall(r"(\d+)", line)
 
 
 def profile_and_print_result(func):
