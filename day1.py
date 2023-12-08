@@ -1,5 +1,7 @@
 from typing import Optional
 
+from utils import profile_and_print_result
+
 NUMBERS = {
     "o": {"n": {"e": 1}},  # 1
     "t": {"w": {"o": 2}, "h": {"r": {"e": {"e": 3}}}},  # two and three
@@ -68,5 +70,9 @@ def day1_part2():
     return sum_calibrations
 
 
-print(day1_part1())
-print(day1_part2())
+profile_and_print_result(day1_part1)
+profile_and_print_result(day1_part2)
+
+# Ex
+# Result => 54630. Time taken 0.004485130310058594 (s)
+# Result => 54770. Time taken 0.03564620018005371 (s)

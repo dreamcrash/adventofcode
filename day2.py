@@ -1,5 +1,7 @@
 import re
 
+from utils import profile_and_print_result
+
 
 def get_max_color_occurrences(color: str, game: str) -> int:
     occurrences = re.findall(rf"(\d+) {color}", game)
@@ -38,5 +40,9 @@ def day2_part2():
     return powers
 
 
-print(day2_part1())
-print(day2_part2())
+profile_and_print_result(day2_part1)
+profile_and_print_result(day2_part2)
+
+# Ex:
+# Result => 2541. Time taken 0.0029888153076171875 (s)
+# Result => 66016. Time taken 0.002270936965942383 (s)
