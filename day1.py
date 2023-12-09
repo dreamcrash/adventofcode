@@ -1,6 +1,6 @@
 from typing import Optional
 
-from utils import profile_and_print_result
+from utils import profile_and_print_result, get_line_content
 
 NUMBERS = {
     "o": {"n": {"e": 1}},  # 1
@@ -13,17 +13,13 @@ NUMBERS = {
 
 
 def extract_calibration_value(string: str) -> int:
-    string = string.rstrip()
     numbers = [int(s) for s in string if s.isdigit()]
     return numbers[0] * 10 + numbers[-1] if len(numbers) else 0
 
 
-def day1_part1():
-    sum_calibrations = 0
-    with open("input1_day1") as file:
-        for line in file:
-            sum_calibrations = sum_calibrations + extract_calibration_value(line)
-    return sum_calibrations
+def day1_part1() -> int:
+    lines = get_line_content("input1_day1")
+    return sum(extract_calibration_value(line) for line in lines)
 
 
 def convert_number(global_line_pos: int, line: [str]) -> Optional[int]:
@@ -60,13 +56,11 @@ def day1_part2():
     to be a bit more challenging
     """
     sum_calibrations = 0
-    with open("input1_day1") as file:
-        for file_line in file:
-            line = file_line.rstrip()
-            new_line = [parser_line(pos, line) for pos in range(0, len(line))]
 
-            value = extract_calibration_value("".join(new_line))
-            sum_calibrations += value
+    for line in get_line_content("input1_day1"):
+        new_line = [parser_line(pos, line) for pos in range(0, len(line))]
+
+        sum_calibrations += extract_calibration_value("".join(new_line))
     return sum_calibrations
 
 
@@ -74,5 +68,5 @@ profile_and_print_result(day1_part1)
 profile_and_print_result(day1_part2)
 
 # Ex
-# Result => 54630. Time taken 0.004485130310058594 (s)
-# Result => 54770. Time taken 0.03564620018005371 (s)
+# Result => 54630. Time taken 0.003875732421875 (s)
+# Result => 54770. Time taken 0.03286314010620117 (s)

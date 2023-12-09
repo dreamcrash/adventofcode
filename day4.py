@@ -1,15 +1,13 @@
-from utils import profile_and_print_result, find_all_digits
+from utils import profile_and_print_result, find_all_digits, get_line_content
 
 
 def from_file_to_pair_of_number_lists() -> (list, list):
     winning_numbers = []
     my_numbers = []
-    with open("input1_day4") as file:
-        for file_line in file:
-            file_line = file_line[file_line.find(":") + 1 :].lstrip()
-            numbers_lists = file_line.split("|")
-            winning_numbers.append(find_all_digits(numbers_lists[0]))
-            my_numbers.append(find_all_digits(numbers_lists[1]))
+    for file_line in get_line_content("input1_day4"):
+        numbers_lists = file_line[file_line.find(":") + 1 :].split("|")
+        winning_numbers.append(find_all_digits(numbers_lists[0]))
+        my_numbers.append(find_all_digits(numbers_lists[1]))
 
     return winning_numbers, my_numbers
 
@@ -22,10 +20,6 @@ def day4_part1():
         result += pow(2, len(same_number) - 1) if same_number else 0
 
     return result
-
-
-def get_lol(card_id: int, end: int, limit: int) -> [int]:
-    return [pos for pos in range(card_id + 1, end) if pos <= limit]
 
 
 def count_instances(same_numbers: list, begin_card_id: int, end_card_id: int):
