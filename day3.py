@@ -24,8 +24,8 @@ def is_in_interval(start_pos: int, end_pos: int, positions: list) -> bool:
     return any(start_pos - 1 <= ss_pos <= end_pos + 1 for ss_pos in positions)
 
 
-def is_valid_number(ss_positions: [list], digit: str, digit_start_pos: int) -> bool:
-    digit_end_pos = digit_start_pos + len(digit) - 1
+def is_valid_number(ss_positions: [list], digit: int, digit_start_pos: int) -> bool:
+    digit_end_pos = digit_start_pos + len(str(digit)) - 1
     return any(is_in_interval(digit_start_pos, digit_end_pos, p) for p in ss_positions)
 
 
@@ -50,7 +50,7 @@ def day3_part1():
         ]
         for digit, digit_pos in zip(digits_in_line, pos_of_digits_in_line):
             if is_valid_number(ss_relevant_pos, digit, digit_pos):
-                digit_sum += int(digit)
+                digit_sum += digit
 
     return digit_sum
 
@@ -59,7 +59,7 @@ def add_gear_coord(current_digit, digit_start_pos, gear_coord, line_yy_pos, gear
     """
     Adds the gear coordinates connected to the given number
     """
-    digit_end_pos = digit_start_pos + len(current_digit) - 1
+    digit_end_pos = digit_start_pos + len(str(current_digit)) - 1
     line_gear_pos = gear_pos[line_yy_pos]
     ss_pos = get_pos_within_interval(digit_start_pos, digit_end_pos, line_gear_pos)
     for p in ss_pos:

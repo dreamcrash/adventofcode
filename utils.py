@@ -17,8 +17,8 @@ def get_line_as_string_content(filename: str) -> str:
     return open(filename, "r").read()
 
 
-def find_all_digits(line: str) -> list:
-    return re.findall(r"(\d+)", line)
+def find_all_digits(line: str) -> [int]:
+    return [int(d) for d in re.findall(r"(\d+)", line)]
 
 
 def profile_and_print_result(func):
