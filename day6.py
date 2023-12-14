@@ -1,3 +1,4 @@
+import math
 from math import sqrt
 
 from utils import profile_and_print_result, find_all_digits
@@ -34,7 +35,7 @@ def day6_part2_faster():
 
     l1 = (-time + sqrt(pow(time, 2) - 4 * (-1) * (-distance))) / (2 * (-1))
     l2 = (-time - sqrt(pow(time, 2) - 4 * (-1) * (-distance))) / (2 * (-1))
-    return round(l2 - l1)
+    return math.floor(l2 + 0.5) - round(l1 + 0.5) + 1
 
 
 profile_and_print_result(day6_part1)
@@ -43,6 +44,6 @@ profile_and_print_result(day6_part2_faster)
 
 
 #
-# Result => 2612736. Time taken 0.000308990478515625 (s)
-# Result => 29891250. Time taken 7.5925891399383545 (s)
-# Result => 29891250. Time taken 0.0002570152282714844 (s)
+#Result => 2612736. Time taken 0.0004260540008544922 (s)
+#Result => 29891250. Time taken 7.526825189590454 (s)
+#Result => 29891250. Time taken 0.00022912025451660156 (s
