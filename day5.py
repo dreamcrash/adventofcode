@@ -35,7 +35,7 @@ def day5_part1():
     return min(find_location(seed, mappings) for seed in seeds)
 
 
-def get_overlapping_range(maps_level: [int], range_start:int, range_end:int):
+def get_overlapping_range(maps_level: [int], range_start: int, range_end: int):
     for dst_start, org_start, length in maps_level:
         if org_start < range_end and range_start < org_start + length:
             return dst_start, org_start, length
@@ -113,5 +113,5 @@ profile_and_print_result(day5_part1)
 profile_and_print_result(day5_part2)
 
 # Ex
-#Result => 388071289. Time taken 0.0011110305786132812 (s)
-#Result => 84206669. Time taken 0.002232074737548828 (s)
+# Result => 388071289. Time taken 0.0011110305786132812 (s)
+# Result => 84206669. Time taken 0.002232074737548828 (s)

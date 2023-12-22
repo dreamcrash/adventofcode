@@ -1,4 +1,4 @@
-from utils import profile_and_print_result
+from utils import profile_and_print_result, get_line_content
 from collections import Counter
 
 
@@ -70,7 +70,7 @@ def get_total_winnings(hands_ranks: [(str, int, int, int)]) -> int:
 
 
 def day7_part1():
-    hands_and_bets = open("input1_day7").read().split("\n")
+    hands_and_bets = get_line_content("input1_day7")
     hands_and_bets = parse_input(hands_and_bets)
     evaluator = HandEvaluator("23456789TJQKA")
 
@@ -83,7 +83,7 @@ def day7_part1():
 
 
 def day7_part2():
-    hands_and_bets = open("input1_day7").read().split("\n")
+    hands_and_bets = get_line_content("input1_day7")
     hands_and_bets = parse_input(hands_and_bets)
     cards_rank = "J23456789TQKA"
     hand_evaluator = HandEvaluator(cards_rank)
