@@ -18,7 +18,7 @@ def get_empty_columns_coordinates(universe: list) -> [int]:
     return col_to_expand
 
 
-def get_empty_space(positions: [int], pos: int, expansion_factor: int) -> int:
+def get_empty_space(positions: [int], pos: int) -> int:
     """
     Counts how many values in positions are lower than pos.
     Assumes the list is in ascending order.
@@ -28,7 +28,7 @@ def get_empty_space(positions: [int], pos: int, expansion_factor: int) -> int:
     for r in positions:
         if pos < r:
             break
-        count += expansion_factor
+        count += 1
     return count
 
 
@@ -40,8 +40,8 @@ def get_galaxies_coordinates(universe: list, expansion_factor: int = 1) -> [(int
     for pos_row in range(len(universe)):
         for pos_col in range(len(universe[pos_row])):
             if universe[pos_row][pos_col] == "#":
-                empty_r_size = get_empty_space(empty_rows, pos_row, expansion_factor)
-                empty_c_size = get_empty_space(empty_cols, pos_col, expansion_factor)
+                empty_r_size = get_empty_space(empty_rows, pos_row) * expansion_factor
+                empty_c_size = get_empty_space(empty_cols, pos_col) * expansion_factor
                 real_coord.append((pos_row + empty_r_size, pos_col + empty_c_size))
     return real_coord
 
