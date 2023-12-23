@@ -18,7 +18,7 @@ def get_empty_columns_coordinates(universe: list) -> [int]:
     return col_to_expand
 
 
-def get_empty_space(positions: [int], pos: int) -> int:
+def get_empty_space(positions: [int], pos: int, expansion_factor: int) -> int:
     """
     Counts how many values in positions are lower than pos.
     Assumes the list is in ascending order.
@@ -28,21 +28,21 @@ def get_empty_space(positions: [int], pos: int) -> int:
     for r in positions:
         if pos < r:
             break
-        count += 1
+        count += expansion_factor
     return count
 
 
-def get_galaxies_coordinates(universe: list) -> [(int, int)]:
-    empty_lines = get_empty_lines_coordinates(universe)
+def get_galaxies_coordinates(universe: list, expansion_factor: int = 1) -> [(int, int)]:
+    empty_rows = get_empty_lines_coordinates(universe)
     empty_cols = get_empty_columns_coordinates(universe)
 
     real_coord = []
     for pos_row in range(len(universe)):
         for pos_col in range(len(universe[pos_row])):
             if universe[pos_row][pos_col] == "#":
-                real_row = pos_row + get_empty_space(empty_lines, pos_row)
-                real_pos = pos_col + get_empty_space(empty_cols, pos_col)
-                real_coord.append((real_row, real_pos))
+                empty_r_size = get_empty_space(empty_rows, pos_row, expansion_factor)
+                empty_c_size = get_empty_space(empty_cols, pos_col, expansion_factor)
+                real_coord.append((pos_row + empty_r_size, pos_col + empty_c_size))
     return real_coord
 
 
@@ -76,4 +76,22 @@ def day11_part1():
     return sum(map(sum, min_steps))
 
 
+def day11_part2():
+    universe = get_line_content("input1_day11")
+
+    # Gets the coordinates after expansion
+    # Calculate the coordinate distances between pairs of galaxies
+    # Gets the total steps between pairs of galaxies
+
+    real_coord = get_galaxies_coordinates(universe, expansion_factor=1000000-1)
+    coord_distances = [get_distances(pos, real_coord) for pos in range(len(real_coord))]
+    min_steps = [[row + col for row, col in distance] for distance in coord_distances]
+
+    return sum(map(sum, min_steps))
+
+
 profile_and_print_result(day11_part1)
+profile_and_print_result(day11_part2)
+
+# Result => 10494813. Time taken 0.12185120582580566 (s)
+# Result => 840988812853. Time taken 0.10173392295837402 (s)
