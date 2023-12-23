@@ -1,3 +1,5 @@
+from bisect import bisect
+
 from utils import profile_and_print_result, get_line_content
 
 
@@ -22,14 +24,9 @@ def get_empty_space(positions: [int], pos: int) -> int:
     """
     Counts how many values in positions are lower than pos.
     Assumes the list is in ascending order.
-    Basically counts the expanding space between pos and 0
+    Basically counts the expanding space between 0 and pos
     """
-    count = 0
-    for r in positions:
-        if pos < r:
-            break
-        count += 1
-    return count
+    return bisect(positions, pos)
 
 
 def get_galaxies_coordinates(universe: list, expansion_factor: int = 1) -> [(int, int)]:
@@ -93,5 +90,5 @@ def day11_part2():
 profile_and_print_result(day11_part1)
 profile_and_print_result(day11_part2)
 
-# Result => 10494813. Time taken 0.12185120582580566 (s)
-# Result => 840988812853. Time taken 0.10173392295837402 (s)
+# Result => 10494813. Time taken 0.09224200248718262 (s)
+# Result => 840988812853. Time taken 0.1004788875579834 (s)
