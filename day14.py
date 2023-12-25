@@ -2,34 +2,34 @@ from utils import profile_and_print_result, get_line_content
 from collections import deque
 
 
-def swap_if_possible_and_get_row(spaces: deque, row: int) -> int:
+def swap_if_possible_and_get_col(spaces: deque, col: int) -> int:
     if len(spaces) > 0:
-        free_row = spaces.popleft()
-        spaces.append(row)
-        return free_row
-    return row
+        free_col = spaces.popleft()
+        spaces.append(col)
+        return free_col
+    return col
 
 
-def check_pos_and_get_count(spaces: deque, board: [[]], row: int, col: int) -> int:
-    if board[row][col] == ".":
-        spaces.append(row)
-    elif board[row][col] == "O":
-        return len(board) - swap_if_possible_and_get_row(spaces, row)
-    elif board[row][col] == "#":
+def check_pos_and_get_count(spaces: deque, row: [int], col: int) -> int:
+    if row[col] == ".":
+        spaces.append(col)
+    elif row[col] == "O":
+        return len(row) - swap_if_possible_and_get_col(spaces, col)
+    elif row[col] == "#":
         spaces.clear()
     return 0
 
 
-def get_col_count(board: [[]], col: int) -> int:
+def get_row_count(row: [int]) -> int:
     spaces = deque()
-    rows = len(board)
-    return sum(check_pos_and_get_count(spaces, board, row, col) for row in range(rows))
+    return sum(check_pos_and_get_count(spaces, row, col) for col in range(len(row)))
 
 
 def day14_part1():
     file_content = get_line_content("input1_day14")
-    board = [list(row) for row in file_content]
-    return sum(get_col_count(board, col) for col in range(len(board[0])))
+    # Transposing the board
+    board = list(map(list, map(list, zip(*file_content))))
+    return sum(get_row_count(row) for row in board)
 
 
 profile_and_print_result(day14_part1)
