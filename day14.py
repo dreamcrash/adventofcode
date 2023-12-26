@@ -111,4 +111,3 @@ profile_and_print_result(day14_part2)
 
 # Result => 113525. Time taken 0.008890867233276367 (s)
 # Result => 101292. Time taken 3.340752124786377 (s)
-
