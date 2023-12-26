@@ -104,12 +104,9 @@ def move_downwards(beans, board: [[str]], row: int, col: int) -> (int, int):
     return None
 
 
-def day16_part1():
-    board = read_board()
-    current_row = 0
-    current_col = 0
+def get_bean_count(board, path):
     paths = deque()
-    paths.append(("r", current_row, current_col))
+    paths.append(path)
     beans = [["." for _ in range(len(board))] for _ in range(len(board))]
     while len(paths):
         path = paths.popleft()
@@ -143,7 +140,27 @@ def day16_part1():
     return count
 
 
+def day16_part1():
+    return get_bean_count(read_board(), ("r", 0, 0))
+
+
+def day16_part2():
+    max_bean = -1
+    board = read_board()
+    for col in range(len(board)):
+        max_bean = max(max_bean, get_bean_count(read_board(), ("d", 0, col)))
+        max_bean = max(max_bean, get_bean_count(read_board(), ("u", len(board) - 1, col)))
+
+    for row in range(len(board)):
+        max_bean = max(max_bean, get_bean_count(read_board(), ("r", row, 0)))
+        max_bean = max(max_bean, get_bean_count(read_board(), ("l", row, len(board) - 1)))
+
+    return max_bean
+
+
 profile_and_print_result(day16_part1)
+profile_and_print_result(day16_part2)
 
 
 # Result => 7046. Time taken 0.007849931716918945 (s)
+# Result => 7313. Time taken 2.1181349754333496 (s)
