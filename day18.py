@@ -11,11 +11,11 @@ def extract_points(dig_plan: [(str, str, str)]) -> [(int, int)]:
     points = [(current_row, current_col)]
     for direction, length, _ in dig_plan:
         if direction == "R" or direction == "0":
-            current_col -= int(length)
+            current_col += int(length)
         elif direction == "D" or direction == "1":
             current_row += int(length)
         elif direction == "L" or direction == "2":
-            current_col += int(length)
+            current_col -= int(length)
         else:
             current_row -= int(length)
         points.append((current_row, current_col))
