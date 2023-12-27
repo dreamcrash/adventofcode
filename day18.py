@@ -6,18 +6,14 @@ from utils import get_line_content, profile_and_print_result
 
 
 def extract_points(dig_plan: [(str, str, str)]) -> [(int, int)]:
-    current_row = 0
-    current_col = 0
+    direction_map = {"R": (0, 1), "D": (1, 0), "L": (0, -1), "U": (-1, 0)}
+    direction_map.update({"0": (0, 1), "1": (1, 0), "2": (0, -1), "3": (-1, 0)})
+    current_row = current_col = 0
     points = [(current_row, current_col)]
     for direction, length, _ in dig_plan:
-        if direction == "R" or direction == "0":
-            current_col += int(length)
-        elif direction == "D" or direction == "1":
-            current_row += int(length)
-        elif direction == "L" or direction == "2":
-            current_col -= int(length)
-        else:
-            current_row -= int(length)
+        x, y = direction_map[direction]
+        current_row += x * int(length)
+        current_col += y * int(length)
         points.append((current_row, current_col))
     return points
 
