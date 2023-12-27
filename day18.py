@@ -10,12 +10,12 @@ def extract_points(dig_plan: [(str, str, str)]) -> [(int, int)]:
     current_col = 0
     points = [(current_row, current_col)]
     for direction, length, _ in dig_plan:
-        if direction == "R":
+        if direction == "R" or direction == "0":
             current_col -= int(length)
-        elif direction == "L":
-            current_col += int(length)
-        elif direction == "D":
+        elif direction == "D" or direction == "1":
             current_row += int(length)
+        elif direction == "L" or direction == "2":
+            current_col += int(length)
         else:
             current_row -= int(length)
         points.append((current_row, current_col))
@@ -23,12 +23,8 @@ def extract_points(dig_plan: [(str, str, str)]) -> [(int, int)]:
 
 
 def get_area(points: [(int, int)]) -> int:
-    area = 0
-    for point_pos in range(len(points) - 1):
-        x1, y1 = points[point_pos]
-        x2, y2 = points[point_pos + 1]
-        area += (x1 * y2) - (x2 * y1)
-    return abs(area)
+    diagonal = zip(points[:-1], points[1:])
+    return abs(sum((x1 * y2) - (x2 * y1) for (x1, y1), (x2, y2) in diagonal))
 
 
 def apply_shoelace_formula(dig_plan: [(str, str, str)]) -> int:
@@ -43,13 +39,7 @@ def day18_part1():
 
 
 def correct_dig_plan(dig_plan: [(str, str, str)]) -> [(str, str, str)]:
-    corrected_dig_plan = []
-    direction_map = ["R", "D", "L", "U"]
-    for _, _, colour in dig_plan:
-        length = int(colour[2:7], base=16)
-        direction = direction_map[int(colour[-2])]
-        corrected_dig_plan.append([direction, length, colour])
-    return corrected_dig_plan
+    return [[c[-2], int(c[2:7], base=16), c] for _, _, c in dig_plan]
 
 
 def day18_part2():
