@@ -93,7 +93,28 @@ def day25_part1() -> int:
     return solution(build_graph(puzzle_input))
 
 
+def day25_networkx_solution() -> int:
+    puzzle_input = get_line_content("input1_day25")
+    puzzle_input = [v.split(":") for v in puzzle_input]
+    puzzle_input = [(v[0], v[1].split()) for v in puzzle_input]
+
+    import networkx
+
+    graph = networkx.Graph()
+    for v, edges in puzzle_input:
+        for e in edges:
+            graph.add_edge(v, e, capacity=1)
+
+    source, *sinks = graph.nodes
+    for sink in sinks:
+        min_cut, nodes = networkx.minimum_cut(graph, source, sink)
+        if min_cut == 3:
+            return len(nodes[0]) * len(nodes[1])
+
+
 profile_and_print_result(day25_part1)
+profile_and_print_result(day25_networkx_solution)
 
 
 # Result => 614655. Time taken 0.05007481575012207 (s)
+# Result => 614655. Time taken 0.27106499671936035 (s)
