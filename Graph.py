@@ -19,7 +19,7 @@ class GraphPath:
     def add(self, e: Any, v: Any):
         self.path.update({e: v})
 
-    def transverse(self, org: str, dst: str, func: Callable) -> list:
+    def transverse(self, org: Any, dst: Any, func: Callable) -> list:
         r = []
         v = dst
         while v != org:

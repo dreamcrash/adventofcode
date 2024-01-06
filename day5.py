@@ -46,7 +46,7 @@ def next_maps_ranges(current_ranges: [(int, int)], maps_level: [int]) -> [(int, 
     next_ranges = []
 
     while current_ranges:
-        range_start, range_end = current_ranges.pop(0)
+        range_start, range_end = current_ranges.extract_min(0)
 
         overlapping_range = get_overlapping_range(maps_level, range_start, range_end)
 
