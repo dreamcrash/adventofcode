@@ -5,7 +5,7 @@ import heapq
 
 INFINITY = float("inf")
 
-DIRECTION = {(-1, 0), (1, 0), (0, -1), (0, 1)}
+DIRECTION = {(-1, 0): "d", (1, 0): "u", (0, -1): "l", (0, 1): "r"}
 
 
 @dataclass(frozen=True)
@@ -27,18 +27,12 @@ class DijkstraPriorityQueue:
 class Dijkstra:
     graph: [[int]]
 
-    def in_limit(self, node: (int, int)):
-        return 0 <= node[0] < len(self.graph) and 0 <= node[1] < len(self.graph)
+    def in_limit(self, v: (int, int), shift: (int, int)) -> bool:
+        r, c = shift
+        return 0 <= v[0] + r < len(self.graph) and 0 <= v[1] + c < len(self.graph)
 
-    def neighbors(self, node: (int, int)) -> [(int, int)]:
-        return filter(self.in_limit, [(node[0] + r, node[1] + c) for r, c in DIRECTION])
-
-    @staticmethod
-    def get_direction(node, v_row, v_col):
-        node_row, node_col = node
-        if node_row == v_row and node_col != v_col:
-            return "r" if node_col < v_col else "l"
-        return "d" if node_row < v_row else "u"
+    def neighbors_directions(self, node: (int, int)) -> [(int, int)]:
+        return [(s, d) for (s, d) in DIRECTION.items() if self.in_limit(node, s)]
 
     @staticmethod
     def is_opposite_direction(node_dir: str, neigh_dir: str) -> bool:
@@ -46,17 +40,14 @@ class Dijkstra:
 
     def filtered_neighbors(self, node: (int, int), node_dir: str, same_dir: int):
         result = []
-        vertex = self.neighbors(node)
+        directions = self.neighbors_directions(node)
+        for (v_shift_row, v_shift_col), v_dir in directions:
+            c = same_dir if node_dir == v_dir else 0
 
-        for v_row, v_col in vertex:
-            v_dir = self.get_direction(node, v_row, v_col)
-
-            if not self.is_opposite_direction(node_dir, v_dir):
-                c = same_dir if node_dir == v_dir else 0
-
-                if c < 3:
-                    heat_loss = self.graph[v_row][v_col]
-                    result.append((heat_loss, (v_row, v_col), v_dir, c + 1))
+            if c < 3 and not self.is_opposite_direction(node_dir, v_dir):
+                v_row, v_col = node[0] + v_shift_row, node[1] + v_shift_col
+                heat_loss = self.graph[v_row][v_col]
+                result.append((heat_loss, (v_row, v_col), v_dir, c + 1))
         return result
 
     def spsp(self, source: (int, int), destination: (int, int)) -> int:
